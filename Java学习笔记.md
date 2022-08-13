@@ -799,6 +799,100 @@ public class ArrayUtil {
 
 
 
+### ==Method Overload 重载方法==
+
+- 在同一个类中，允许存在一个以上的同名方法，只要参数个数或者参数类型不同
+
+```java
+// 这两个method构成重载
+public void reverse(int[] arr){}
+public void reverse(String[] arr){}
+```
+
+- 相同点：class名称，method名称
+- 不同点：参数类型不同，参数个数不同
+
+Example：
+
+```java
+// 以下四个method构成重载
+public void getSum(int i, int j) {}
+public void getSum(double d1, double d2) {}
+public void getSum(String s, int i) {}
+public void getSum(int i, String s) {}
+
+// 以下三个method与第一个不构成重载
+// public int getSum(int i, int j) {return 0;}
+// 
+// public void getSum(int m, int n) {}
+//
+// private void getSum(int m, int n) {}
+```
+
+- 判断方法：跟method的权限修饰符(`public/private...`)，返回值类型(`int, double, void...`)，形参变量名(`(int i, int j)与(int m, int n)`)，以及方法体都没有关系
+- Java选择重载方法符合自动类型提升
+
+```java
+public class OverLoadTest {
+    public static void main(String[] args) {
+        OverLoadTest test = new OverLoadTest();
+        test.getSum(1, 2); // 自动选择1, 如果1被注释掉会选择2
+    }
+
+    public void getSum(int i, int j) {
+        System.out.println("1");
+    }
+
+    public void getSum(double d1, double d2) {
+        System.out.println("2");
+    }
+
+    public void getSum(String s, int i) {
+        System.out.println("3");
+    }
+
+    public void getSum(int i, String s) {
+        System.out.println("4");
+    }
+```
+
+- 在通过对象调用方法时，如何确定要调用某一个同名方法？
+  - 方法名 ==> 参数列表
+
+### 可变个数形参的方法
+
+在JDK5.0的时候加入了Varargs(Variable Numbers of Arguements)机制，允许==**直接定义能和多个实参相匹配的形参**==
+
+Example：MethodArgsTest
+
+```java
+public class MethodArgsTest {
+    public static void main(String[] args) {
+        MethodArgsTest test = new MethodArgsTest();
+        test.show(12); // 匹配method1
+        test.show("Hello"); // 匹配method2
+        test.show("Hello", "World!"); //可变形参
+    }
+    
+    public void show(int i) { }
+    public void show(String s) { }
+    // 可变形参
+    public void show(String ... s){ }
+    // 此方法与上面的方法不构成重载，编译器报错
+    public void show(String[] strs){ }
+}
+```
+
+- 当调用可变个数形参的方法时，传入的参数个数可以是0个、1个、2个或者多个
+- 可变个数形参的方法，==与其他方法名相同，形参类型相同的非数组方法之间构成重载==
+- 方法名相同但参数类型也相同的数组之间不构成重载
+
+<img src="./JavaMDImage/可变个数形参.png" alt="可变个数形参" style="zoom: 50%;" />
+
+
+
+### ==方法参数的值传递机制==
+
 
 
 
