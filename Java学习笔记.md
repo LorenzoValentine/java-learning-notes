@@ -891,7 +891,44 @@ public class MethodArgsTest {
 
 
 
-### ==方法参数的值传递机制==
+### ==**方法参数的值传递机制**==
+
+Example:
+
+```java
+public class ValueTransfer {
+    public static void main(String[] args) {
+        Order o1 = new Order();
+        o1.orderId = 1001;
+        Order o2 = o1; // 此时没有生成新对象, 只是把o1.orderId的地址给了o2, o1和o2都指向了堆空间的同一个实体
+      
+        System.out.println("o1 id:" + o1.orderId + "\n" + "o2 id:" + o2.orderId); 
+// o1 id:1001
+// o2 id:1001
+        o2.orderId = 1002; 
+        System.out.println("o1 id:" + o1.orderId + "\n" + "o2 id:" + o2.orderId);
+// o1 id:1002
+// o2 id:1002
+    }
+}
+
+class Order{ int orderId; }
+```
+
+- 关于变量的赋值
+
+  - 如果变量是基本数据类型：赋值的是变量所保存的数据
+  - ==**如果变量是引用数据类型：此时赋值的是变量所保存的数据的地址值**==
+
+- 参数类型
+
+  - 形参：方法定义时，声明的小括号内的参数 `public void aaa(int c)`
+
+  - 实参：方法调用时，实际传递给形参的数据 `aaa(19)`
+
+- 值传递机制
+
+  - 
 
 
 
