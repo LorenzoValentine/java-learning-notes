@@ -941,9 +941,79 @@ public int getSum(int n){
 }
 ```
 
+### 面向对象的特征
 
+#### 特征一：封装性
 
+- 隐藏对象内部的复杂性，只对外公开简单的接口，便于外界调用，从而提高系统的可扩展性、可维护性
+- **"高内聚，低耦合"**
+  - 高内聚 ：类的内部数据操作细节自己完成，不允许外部干涉
+  - 低耦合 ：仅对外暴露少量的方法用于使用
+- 封装性的体现：
+  1. `private`
+  2. 不对外暴露的私有方法
+  3. 单例模式 Singleton
 
+Example: AnimalTest
+
+```Java
+package Day10;
+
+public class AnimalTest {
+    public static void main(String[] args) {
+        Animal a = new Animal();
+        a.name = "大黄";
+        a.age = 1;
+        a.legs = 4; // 由于legs的权限是private，所以这里不可以直接赋值，必须使用给定的setLegs方法
+
+        //a.legs = -4;
+        a.setLegs(6);
+        a.show();
+    }
+}
+
+class Animal{
+    String name;
+    int age;
+    private int legs; // 腿的个数, 这里是private权限
+	
+  // 对属性的复制
+    public void setLegs(int legs) {
+        if (legs >= 0 && legs % 2 == 0){
+            this.legs = legs; //由于重名，这里的legs是method里的legs
+        } else {
+            this.legs = 0;
+        }
+    }
+  // 对属性的获取
+    public int getLegs(){
+        return this.legs;
+    }
+
+    public void eat(){
+        System.out.println("animal eat");
+    }
+
+    public void show(){
+        System.out.println("name=" + name + ",age=" + age + ",legs=" + legs);
+    }
+}
+```
+
+- 当创建一个类的对象之后，使用“`对象.属性`”对对象的属性进行赋值，但是赋值操作会受到==属性的数据类型和存储范围的制约==，除此之外没有其他制约条件。
+
+- ==在实际问题中，往往需要给属性赋值加入额外的限制条件==，这个条件就不能在属性声明时体现，只能通过method进行限制条件的添加(比如`setLegs(int l){ }`)
+- 之后**避免用户再使用`对象.属性`的方式进行赋值，则需要在属性声明为私有的(`private`)****
+- **将类的属性aaa私有化(`private`)的同时，需要提供公共(`public`)方法来获取(`getAaa`)以及设置(`setAaa`)此属性的值**
+
+Example：提供关于属性age的get和set方法
+
+```java
+		public int getAge(){
+        return age; }
+    public void setAge(int a){
+        age = a; }
+```
 
 
 
