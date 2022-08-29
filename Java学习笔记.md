@@ -1015,11 +1015,16 @@ Example：提供关于属性age的get和set方法
         age = a; }
 ```
 
+#### 四种权限修饰符
+
+**Java规定的四种权限修饰符(由小到大排列)：`private/缺省/protected/public`**
+
+<img src="./JavaMDImage/四种权限修饰符.png" alt="四种权限修饰符" style="zoom:50%;" />
 
 
 
-
-
+- 这四种权限都可以修饰class的内部结构(属性、方法、构造器、内部类)
+- 缺省和public权限可以修饰类
 
 
 
