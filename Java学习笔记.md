@@ -1131,7 +1131,7 @@ Example：提供关于属性age的get和set方法
 
 
 
-### Object类(java.lang.Object)
+### 多态性的体现：Object类(java.lang.Object)
 
 - java中预声明的类，如果没有显式声明其父类时，则默认继承`java.lang.Object`
 
@@ -1226,9 +1226,33 @@ Example：提供关于属性age的get和set方法
 
 #### Obj类中的重点方法2：toString()方法
 
-1. 
+1. Object类中的toString()的定义
+
+   1. ```java
+      public String toString() {
+              // 获取当前类中的对象的对象名+地址值(hashCode方法转换为16进制)
+        	return getClass().getName() + "@" + Integer.toHexString(hashCode());
+          }
+      ```
+
+2. 开发中的使用场景
+
+   - 平时在调用`sout`的时候打印对象引用变量时，本质上调用的就是对象的toString()
+
+3. 子类使用说明
+
+   - ==自定义的类，在没有重写Object里的toString()方法的时候，默认返回是当前对象的地址值==
+   - 预定义的类比如String, File, Date或者包装类等Object的子类，他们都重写了Object里面的toString，在调用toString的时候返回当前对象的实体内容(比如string就打印string的内容)
+
+4. 开发中使用说明
+
+   习惯上，在开发中对于自定义的类在调用toString()时，也希望现实其对象的实体内容，而非地址值，这时候就需要重写。
 
 
+
+### 面向对象编程（高级）
+
+#### Static修饰成员变量与方法
 
 
 
