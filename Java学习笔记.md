@@ -1254,7 +1254,143 @@ Example：提供关于属性age的get和set方法
 
 #### Static修饰成员变量与方法
 
+- 如果想让一个成员变量被类的所有实例所共享，就用static修饰即可，成为类变量，可以修饰==属性，方法，代码块，内部类==，构造器除外。
+- Static修饰属性
+  - 对比静态变量和实例变量
+    - 个数
+      - `static` 静态变量：在内存空间中只有一份，被类的多个对象所共享
+      - 实例变量：类的每一个实例或者变量都保存着一份实例变量
+    - 内存位置
+      - `static` 静态变量：
+      - 实例变量：
+    - 加载时机
+      - `static` 静态变量：随着类的加载而加载，不需要创建实例，并且由于类只会加载一次，所以静态变量也只有一份
+      - 实例变量：
+    - 调用者
+      - `static` 静态变量：
+      - 实例变量：
+    - 内存位置
+      - `static` 静态变量：
+      - 实例变量：
+    - 内存位置
+      - `static` 静态变量：
+      - 实例变量：
 
+
+
+# 集合框架
+
+### 集合框架概述
+
+- 在内存层面需要针对多个数据进行存储
+
+- 数组存储
+
+    - 数组存储多个方面的特点
+        - 数组一旦初始化，其长度就是确定的
+        - 数组中的多个元素是依次有序紧密排列的，并且可重复的
+        - （优点）数组一旦初始化完成，其类型就是确定的。不是此类型的元素就不能被添加进来
+        - （优点）数组中元素的类型既可以是基本数据类型，也可以是引用数据类型
+
+    - 数组存储多个方面的弊端
+        - 数组一旦初始化，其长度就是不可变的
+        - 数组中存储数据的单一性：对于无序，不可重复的数据就无能为力了
+        - 数组中可用的方法/属性很少，具体的需求都需要自己来组织相关的代码逻辑
+        - 针对于数组中元素的删除、插入操作性能差
+
+- **==Java集合的框架体系：`java.util`包下==**
+
+    - `java.util.Collection`：存储一个一个的的数据
+
+        - `List `接口：存储有序的、可重复的数据(“动态数组”)
+            - `ArrayList(主要实现类); LinkedList; Vector`
+
+        - `Set`接口：存储无序的、不可重复的数据  **具体开发场景里用处比较少**
+            - `HashSet(主要实现类); LinkedHashSet; TreeSet`
+
+    - `java.util.Map`：存储一对一对的数据（Key-Value键值对，类似于函数 `y=f(x)`）
+
+        ==不同的key可以指向相同的value，但是一个key不能指向多个value==
+
+        - `HashMap(主要实现类); LinkedHashMap; TreeMap; Hashtable(t小写); Properties`
+
+
+### Collection接口里的方法：`java.util.Collection`
+
+- `java.util.Collection`：存储一个一个的的数据
+
+  - `List `接口：存储有序的、可重复的数据(“动态数组”)
+    - `ArrayList(主要实现类); LinkedList; Vector`
+
+
+  - `Set`接口：存储无序的、不可重复的数据  **具体开发场景里用处比较少**
+    - `HashSet(主要实现类); LinkedHashSet; TreeSet`
+
+1. **具体方法如下**：
+
+- `.add(Object obj)`: 添加元素到当前集合里，如果后面是一个集合，会把他整体放进去，而不会进行拆分
+- `.addAll(Collection other)`: 添加other集合中的元素全部加到当前集合中
+- int `.size()`: 获取当前集合中实际存储的元素个数
+- boolean `.isEmpty()`: 判断当前集合是否为空集合
+- boolean `.contains(Object obj)`: 判断当前集合中是否存在一个与obj对象equals返回true的元素
+- boolean `.containsAll(Collection col)`: 判断coll中的所有元素是否在当前集合中都存在
+- boolean `.equals(Object obj)`: 判断当前集合与obj是否相等
+- void `.clear()`: 清空当前集合里的元素
+- boolean `.remove(Object obj)`: 从当前集合中删除第一个找到的与obj对象equals返回true的元素
+- boolean `.removeAll(Collection coll)`: 从当前集合中删除所有与coll集合相同的元素 ->==取差集==
+- boolean `.retainAll(Collection coll)`: 从集合中删除所有两个集合中不同的元素，只保留两个集合相同的元素 ->==取交集==
+- Object[] `.toArray()`: 返回包含当前集合中所有元素的数组
+- `.hashCode()`: 获取当前集合对象的哈希值
+- `.iterator()`: 返回迭代器对象，用于集合遍历
+
+**2. 集合和数组的相互转换**
+
+- 集合转换为数组：`.toArray()`
+- 数组转换为集合：`Arrays.asList()` Arrays的静态方法asList()
+
+**3. 向Collection中添加元素的要求**： ==要求元素所属的类一定要对equals()方法进行重写==
+
+- 原因：因为collection中相关方法在使用时，要调用元素所在类的equals()
+
+**Iterator迭代器的使用与for循环的增强**：对集合的遍历
+
+- 如何获取迭代器对象
+
+  - ```java
+    Iterator iterator = coll.iterator();
+    ```
+
+- 主要方法
+
+  - `.next()`: 获取当前集合的下一个元素，到最后一个之后继续执行会导致报错
+
+  - `.hasNext()`: 判断当前迭代器是否有下一个元素
+
+    - ```java
+      while(iterator.hasNext()){
+      	// .next(): 1. 指针下移 2. 将下移以后的集合位置上的元素返回
+        System.out.println(iterator.next());
+              }
+      ```
+
+  - ！！！错误的迭代方法
+
+    - ```java
+      class{
+        // 方式一：错误的遍历：每次调取.next()都会将指针下移一次
+      	Iterator iterator = coll.iterator();
+      	while(iterator.next() != null){
+      	    System.out.println(iterator.next()); 
+      	}
+      
+      	// 方式二：错误的遍历：每次调用.iterator()的时候都会返回一个新的迭代器对象
+      	while(coll.iterator().hasNext()){
+      	    System.out.println(coll.iterator().next());
+      	}
+      }
+      ```
+
+    - 
 
 
 
