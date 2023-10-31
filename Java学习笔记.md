@@ -1514,17 +1514,59 @@ Example：提供关于属性age的get和set方法
 
 ### 12.5 Map接口的实现类
 
-`java.util.Map`：存储一对一对的数据（Key-Value键值对，类似于函数 `y=f(x)`）
+`java.util.Map`：存储一对一对的数据（`Key-Value`键值对，类似于函数 `y=f(x)`）
 
 ==不同的key可以指向相同的value，但是一个key不能指向多个value==
 
-- `HashMap`：主要实现类；线程不安全的，执行效率高；可以添加`null`的`key`和`value`值
-- `Hashtable(t小写)`：古老的实现类；线程安全的，执行效率低；
-- `LinkedHashMap`：
-- `TreeMap`：
-- `Properties`：
+- **`Map`及其实现类对比**
+
+  - `HashMap`：主要实现类；线程不安全的，执行效率高；可以添加`null`的`key`和`value`值(`map.put(null, null);`)
+    - 底层使用数组+单向链表+红黑树进行存储(jdk8, 在这个版本前没有红黑树)
+
+  - `LinkedHashMap`：是HashMap的一个子类，在HashMap底层使用的数据结构基础上添加了双向链表用来记录添加的先后顺序，进而在遍历元素时可以按照添加的顺序显示。==在开发中对于频繁的遍历操作可以使用此类，遍历的速度更快==
+
+  - `Hashtable(t小写)`：古老的实现类；线程安全的，执行效率低；可以添加`null`的`key`或者`value`值，不能同时为空
+    - 底层使用数组+单向链表存储
+
+  - `Properties`：是`Hashtable`的子类；其`key`和`value`都是`String`类型
+
+  - `TreeMap`：底层使用红黑树存储；可以按照添加的`key-value`中的`key`元素的指定的属性大小顺序进行排序；
+    - 排序方式：1. 自然排序    2. 定制排序
+
+- **`HashMap`中的`key-value`特点**
+
+  - HashMap中的所有的`key`是不可重复的，并且无序的，所以所有的`key`就构成一个`HashSet`集合。`key`所在的类需要重写`hashCode()`和`equals()`方法
+  - HashMap中的所有的`value`是可重复的，并且无序的，所以所有的value就只构成一个`collection`集合。`value`所在的类只需要重写`equals()`方法
+  - HashMap中的一个`key-value`构成了一个`entry`。
+  - HashMap中的所有的`entry`彼此之间是不可重复的，无序的。所有的`entry`构成了一个`Set`集合
+
+- **`Map`中的常用方法**
+
+  - 添加、修改操作
+    - `object put(Object key, Object value)`：将指定的key-value添加（或者修改）到当前`map`对象中
+    - `void putAll(Map m)`：将m中的所有key-value对存放在当前map中
+  - 删除操作
+    - `Object remove(Object key)`：移除指定key的key-value pair并且返回value
+    - `void clear()`：清空当前map中所有数据
+  - 查询操作
+    - `Object get(Object key)`：获取指定key对应的value
+  - 长度
+    - `size()`：获取当前map的长度
+  - 遍历
+    - 遍历key集合：`Set keySet()`
+    - 遍历value集合：`Collection values()`
+    - 遍历entry集合：`Set entrySet()`
+  - 其他方法
+    - `boolean containsKey(Object key)`：是否包含指定的key，需要对key所在类进行`equals()`重写
+    - `boolean containsValue(Object value)`：是否包含指定的value，需要对value所在类进行`equals()`重写
+    - `boolean isEmpty()`：判断当前map是否是空
+    - `boolean equals(Object obj)`：判断当前map和参数对象obj是否相等
 
 
+
+# 13 泛型
+
+### 13.1 泛型概述
 
 
 
