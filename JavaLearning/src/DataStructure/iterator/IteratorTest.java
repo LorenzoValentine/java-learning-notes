@@ -40,16 +40,16 @@ public class IteratorTest {
         coll.add("CC");
         coll.add("DD");
 
-        // 方式一：错误的遍历：每次调取.next()都会将指针下移一次
-        Iterator iterator = coll.iterator();
-        while(iterator.next() != null){
-            System.out.println(iterator.next());
-        }
-
-        // 方式二：错误的遍历：每次调用.iterator()的时候都会返回一个新的迭代器对象
-        while(coll.iterator().hasNext()){
-            System.out.println(coll.iterator().next());
-        }
+//        // 方式一：错误的遍历：每次调取.next()都会将指针下移一次
+//        Iterator iterator = coll.iterator();
+//        while(iterator.next() != null){
+//            System.out.println(iterator.next());
+//        }
+//
+//        // 方式二：错误的遍历：每次调用.iterator()的时候都会返回一个新的迭代器对象
+//        while(coll.iterator().hasNext()){
+//            System.out.println(coll.iterator().next());
+//        }
 
 
     }

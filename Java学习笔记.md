@@ -1352,7 +1352,7 @@ Example：提供关于属性age的get和set方法
 
 - 原因：因为collection中相关方法在使用时，要调用元素所在类的equals()
 
-**Iterator迭代器的使用与for循环的增强**：对集合的遍历
+**4. Iterator迭代器的使用**：对集合的遍历
 
 - 如何获取迭代器对象
 
@@ -1390,7 +1390,100 @@ Example：提供关于属性age的get和set方法
       }
       ```
 
-    - 
+**5. 增强的for循环：`foreach`的使用**
+
+- 作用：用来遍历数组与集合
+
+- 格式
+
+  - `for(要遍历的集合或者数组元素的类型 临时变量 : 要遍历的集合或者数组变量){ sout(临时变量)}`
+
+  - ```java
+    int[] arr = new int[]{1,2,3,4,5,6,7,8,9,10};
+    // 使用增强的for循环遍历数组
+    for (int o : arr){
+        System.out.println(o);
+    }
+    ```
+
+  - 针对于集合来讲，增强的for循环的低层仍然使用的是`Iterator<E>`
+
+  - ```java
+    // 使用下面的增强for循环并不能将集合里面的元素进行修改
+    for(String s : coll){
+      s = "AA"; // 这里s指向了堆空间中新开辟的区域，而不是当前集合或者数组的原有区域
+    }
+    ```
+
+    由于s是临时变量，==循环体中对临时变量的修改，可能不会导致原有集合或数组中元素的修改==
+
+  - **增强的for循环执行过程中，是将集合或者数组中的元素依次赋值给临时变量**
+
+
+
+### List接口的实现类
+
+- List接口中存储数据的特点：用于存储有序并且可以重复的数据，使用List可以替代数组
+
+- List中的常用方法
+
+  - 父级Collection中的15个常用方法
+  - 因为List是有序的，进而存在索引。所以会增加一些针对索引操作的办法
+
+- List中的额外方法
+
+  - 增加元素
+    - `add(Object obj)`
+    - `addAll(Collection coll)`
+  - 删除元素
+    - `remove(Object obj)`
+    - `remove(int i)`：移除指定index位置的元素，并返回此元素
+  - 修改元素
+    - `set(int index, object element)`：设置指定index位置的元素为element
+  - 查询元素
+    - `get(int index)`：获取指定index位置的元素
+  - 插入元素
+    - `add(int index, Object element)`：在index位置插入element元素
+    - `addAll(int index, Collection coll)`：在index位置开始将coll中的所有元素插入进来
+  - 获取长度
+    - `size()`
+  - 遍历
+    - `iterator()`：使用迭代器进行遍历
+    - `for each`：增强的for循环
+    - 一般的for循环
+  - 获取元素索引
+    - `indexOf(Object obj)`：返回obj在集合中首次出现的位置
+    - `lastIndexOf(Object obj)`：返回obj在集合中末次出现的位置
+
+- 对List的遍历
+
+  - ```java
+            // 遍历方式1：迭代器
+            Iterator iterator = list.iterator();
+            while(iterator.hasNext()){
+                System.out.println(iterator.next());
+            }
+            
+            // 遍历方式2：增强的for
+            for (Object o : list){
+                System.out.println(o);
+            }
+            
+            // 遍历方式3：一般的for循环
+            for (int i = 0; i < list.size(); i++){
+                System.out.println(list.get(i));
+            }
+    ```
+
+**List及其实现类的特点**
+
+- Arraylist：List的主要的实现类(from JDK1.2)，线程不安全的实现类，效率高；底层使用`Object[]`数组存储==大部分情况都用==
+- Vector：List的古老的实现类(from JDK1.0)，线程安全的实现类，效率低；底层使用`Object[]`数组存储
+- LinkedList：底层使用双向链表的方式进行数组存储
+
+
+
+### Set接口的实现类
 
 
 
