@@ -61,8 +61,8 @@ by：白白子
 
 用于定义访问权限修饰符的关键字：
 
-| private | Public | pr   |      |      |
-| ------- | ------ | ---- | ---- | ---- |
+| private | Public | Protected | 缺省 |
+| ------- | ------ | --------- | ---- |
 
 - Reserved Word：现有Java尚未使用，在以后的版本可能会作为关键字使用 goto/const
 
@@ -1305,7 +1305,7 @@ Example：提供关于属性age的get和set方法
 
 
 
-### 8.5 Final关键字的作用
+### 8.6 Final关键字的作用
 
 1. `final`关键字的理解：
 
@@ -1362,7 +1362,7 @@ Example：提供关于属性age的get和set方法
 
 
 
-### 8.6 抽象类及抽象方法：abstract关键字
+### 8.7 抽象类及抽象方法：abstract关键字
 
 为什么要用抽象类：比如定义一个“几何图形”类（包含求周长以及求面积），由于他的子类（圆形，长方形，三角形等）的求周长等方法没有共同点，每次都需要对这些方法进行重写，进而将“几何图形”类变为抽象类，并且提供求周长以及求面积的抽象方法。子类使用这些方法的时候直接对抽象方法进行重写(Override)，实现(Implement)
 
@@ -1385,9 +1385,86 @@ Example：提供关于属性age的get和set方法
 
 
 
-### 8.7 interface接口
+### 8.8 interface接口
+
+- 接口定义的关键字：`interface`
+- 接口内部结构的声明：
+  - 可以声明的：
+    - 属性：必须使用`public static final`修饰
+    - 方法：
+      - jdk8之前：声明抽象方法，修饰为`public abstract`
+      - jdk8：声明静态方法和默认方法
+      - jdk9：声明私有方法
+  - 不能声明的：构造器、代码块
+- 接口和类的关系：实现关系（类实现接口）
+  - 类可以实现多个接口
+  - 类针对于接口的多实现，一定程度上就弥补了类的单继承的局限性
+  - 类必须将实现的接口中所有的抽象方法都重写/实现，方可进行实例化，否则此实现类必须声明为抽象类
+
+```java
+权限修饰符 class A implements B,C { }
+
+权限修饰符 class A extends SuperA implements B,C {}
+// A相较于SuperA来说是子类
+// A相较于B,C来说是实现类
+```
+
+- 接口和接口的关系：继承关系，并且可以多继承
+
+  - ```java
+    interface AA {
+        void method1();
+    }
+    interface BB {
+        void method2();
+    }
+    interface CC extends AA,BB { // 接口多继承
+    
+    }
+    
+    class DD implements CC { //对子接口的重写需要重写被继承前的所有方法
+        @Override
+        public void method1(){
+            System.out.println("1");
+        }
+    
+        @Override
+        public void method2(){
+            System.out.println("2");
+        }
+    }
+    ```
+
+- 接口的多态性：`接口名 变量名 = new 实现类对象`
+
+- 区分抽象类和接口
+
+  - 共性
+    - 都可以声明抽象方法
+    - 都不能实例化
+  - 不同
+    - 抽象类一定有构造器，但是接口没有构造器
+    - 类与类之间是继承关系，类与接口之间是实现关系，接口与接口之间是多继承关系
+
+![diff-interface-abstract](/Users/doujingqi/Documents/Macbook Document/Notes/java-learning-notes/JavaMDImage/diff-interface-abstract.png)
+
+### 8.9 内部类 inner class
+
+- 将一个类A定义在另一个类B里面，A类就叫做InnerClass，B类叫做OuterClass
+- 为什么要声明内部类：遵循高内聚，低耦合；内部类只给外部类提供服务，其他地方用不到
+- 
 
 
+
+### 8.10 枚举类 enumerate
+
+
+
+### 8.11 注解 annotation @
+
+
+
+### 8.12 包装类 wrapper
 
 
 
