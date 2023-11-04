@@ -1810,7 +1810,7 @@ public enum Status {
   2. 提供几个重载的构造器
   3. 提供一个全局常量，声明为`static final long serialVersionUID = -xxxxxxL`
 - 使用方法
-  - 在具体的代码中，满足
+  - `throw new 自定义异常类("输出信息")`
 
 
 
@@ -1820,7 +1820,11 @@ public enum Status {
 
 
 
+11.5 日 《红楼梦》+ 多线程 + Treeset + 泛型 + p195 Lambda
 
+11.6 一 《》 + JavaFx
+
+11.7 二   
 
 
 
