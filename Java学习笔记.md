@@ -1452,21 +1452,312 @@ Example：提供关于属性age的get和set方法
 
 - 将一个类A定义在另一个类B里面，A类就叫做InnerClass，B类叫做OuterClass
 - 为什么要声明内部类：遵循高内聚，低耦合；内部类只给外部类提供服务，其他地方用不到
+  - Example
+    - `Thread`类内部声明了`State`类，表示线程的生命周期
+    - `HashMap`类声明了`Node`类，表示封装的key-value
+- 内部类的分类
+  - 成员内部类：直接声明在外部类的里面
+    - 使用static修饰的内部类：静态成员内部类
+    - 不使用static修饰的内部类：非静态成员内部类
+  - 局部内部类：声明在方法内，构造器内，代码块内的内部类
+    - 匿名的局部内部类
+    - 非匿名的局部内部类
+
+```java
+class Person { // 外部类
+    
+    // 静态的成员内部类
+    static class Dog{
+        
+    }
+
+    // 非静态的成员内部类
+    class Bird {
+        
+    }
+    
+    // 方法内
+    public void method(){
+        // 局部内部类
+        class InnerClass{
+            
+        }
+    }
+    
+    // 构造器内
+    public Person(){
+        // 局部内部类
+        class InnerClass{
+            
+        }
+    }
+}
+```
+
+- 成员内部类
+
+  - 成员内部类的理解
+
+    - 从类的角度看：
+      - 内部可以声明属性、方法、构造器、代码块、内部类等结构
+      - 此内部类可以声明父类，可以实现接口
+      - 可以使用final修饰，表示不能有子类
+      - 可以使用abstract修饰
+    - 从外部成员来看
+      - 在内部可以调用外部类的属性或者方法等
+      - 内部类可以使用包括private和protected在内的所有权限修饰
+      - 可以使用static进行修饰
+
+  - 如何创建成员内部类的实例
+
+  - 如何在成员内部类中调用外部类的结构
+
+  - ```java
+    class Person { // 外部类
+    
+        String name = "Tom";
+        int age = 10;
+    
+        // 静态的成员内部类
+        static class Dog{
+            public void eat(){
+                System.out.println("dog eat bone");
+            }
+        }
+    
+        // 非静态的成员内部类
+        class Bird {
+            String name = "Cocatoo";
+            public void eat(){
+                System.out.println("dog eat worm");
+            }
+    
+            public void show(String name){
+                // 这里由于Bird没有age，所以调用的Person的，省略了Person.this
+                System.out.println("age= " + age); 
+                System.out.println("name= " + name); // 这里调用的是形参的name
+                System.out.println("name= " + this.name); // 这里调用的是Bird的name
+                System.out.println("name= " + Person.this.name); // 这里调用的是Person的name
+            }
+        }
+    }
+    ```
+
+- 局部内部类的使用
+
 - 
 
 
 
 ### 8.10 枚举类 enumerate
 
+- 定义：枚举类是一种类，并且它的对象是有限的，固定的几个，不能随意修改
+- 在开发中的使用
+  - 如果针对于某个类，**其实例是确定个数的**，则推荐将此类声明为枚举类
+  - 如果枚举类的实例只有一个，则可以实现单例设计模式
+
+声明枚举类的格式
+
+```java
+enum Season1{
+    // 1. 必须在枚举类的开头声明多个对象，对象之间使用逗号隔开
+    SPRING("春天","春暖花开"),
+    SUMMER("夏天","夏日炎炎"),
+    AUTUMN("秋天","秋高气爽"),
+    WINTER("冬天","冰天雪地");
+    
+    // 2. 声明当前类的实例变量，使用private final修饰
+    private final String seasonName;
+    private final String seasonDesc;
+
+    // 3. 私有化类的构造器
+    private Season1(String seasonName, String seasonDesc) {
+        this.seasonName = seasonName;
+        this.seasonDesc = seasonDesc;
+    }
+    
+    // 4. 提供gets方法
+    public String getSeasonName() {
+        return seasonName;
+    }
+
+    public String getSeasonDesc() {
+        return seasonDesc;
+    }
+
+    @Override
+    public String toString() {
+        return "Season1{" +
+                "seasonName='" + seasonName + '\'' +
+                ", seasonDesc='" + seasonDesc + '\'' +
+                '}';
+    }
+}
+```
+
+- `Enum`中的常用方法
+
+  1. 使用`enum`关键字定义的枚举类，默认其父类是`java.lang.Enum`, 属于`java.lang.Object`，并且不能显式的定义其父类
+  2. `String toString()`：默认返回的是常量名（对象名），可以继续手动重写该方法
+  3. `String name()`：实际上相等于`toString()`的不重写方法，优先使用`toString()`
+  4. `static 枚举类型[] values()`：将枚举对象里面所有的对象全部取出放到数组里，是static方法
+  5. `static 枚举类型[] valueOf(String name)`：返回当前枚举类中名称为name的枚举类对象，如果枚举类中不存在会报错
+  6. `int ordinal()`：返回当前枚举常量的次序号，默认从0开始
+
+- 枚举类实现接口的情况
+
+  - 枚举类实现接口：在枚举类中重写接口中的抽象方法。当通过不同的枚举类调用此方法时，调用的是同一个方法
+
+  - 枚举类的对象重写抽象方法：当通过不同的枚举类调用此方法时，调用的是不同的实现方法
+
+    - ```java
+      		SPRING("春天","春暖花开"){
+              public void show(){
+                  System.out.println("春天");
+              }
+          },
+          SUMMER("夏天","夏日炎炎"){
+              public void show(){
+                  System.out.println("夏天");
+              }
+          },
+          AUTUMN("秋天","秋高气爽"){
+              public void show(){
+                  System.out.println("autumn");
+              }
+          },
+          WINTER("冬天","冰天雪地"){
+              public void show(){
+                  System.out.println("winter");
+              }
+          };
+      ```
+
+开发中定义枚举：
+
+```java
+public enum Status {
+    BUSY, FREE, VACATION, DIMISSION;
+}
+```
+
 
 
 ### 8.11 注解 annotation @
+
+#### 8.11.1 Annotation
+
+#### 8.11.2 JUnit 单元测试
+
+- 测试分类
+
+  - 黑盒测试：不需要写代码，给定输入的值，看程序是否能输出期望的值
+
+  - 白盒测试：需要写代码，并且关注具体的执行流程
+
+
 
 
 
 ### 8.12 包装类 wrapper
 
 
+
+# 9. 异常处理
+
+### 9.1 异常概述
+
+- 异常：指的是程序在执行过程中出现的非正常情况，如果不处理最终会导致JVM的非正常停止，并不是语法和和逻辑错误
+- 异常的抛出机制：Java使用不同的类表示异常，当发生异常的时候直接**创建当前异常类型的对象**，并且抛出(throw)，之后程序员可以捕获(catch)该异常并处理
+
+### 9.2 Java异常体系
+
+##### 1. Throwable: `java.lang.Throwable`类是Java程序执行过程中发生的异常事件对应的类的根父类
+
+##### 2. Error和Exception: Throwable的两个子类
+
+- `java.lang.Error`：错误，Java虚拟机无法解决的严重问题。比如JVM系统错误、资源耗尽。**一般不编写针对性的代码进行处理。**
+  - `StackOverflowError` 栈内存溢出；`OutOfMemoryError` 堆内存溢出(OOM)
+
+- `java.lang.Exception`：异常，因编程错误或者偶然的外在因素导致的一般性问题，需要针对性的代码进行处理
+  - 空指针访问，试图读取不存在的文件
+  - 编译时异常：（受检异常）在执行`javac.exe`命令时出现的异常
+  - 运行时异常：（非受检异常）在执行`java.exe`命令时出现的异常
+
+##### 3. 常见的运行时异常 RuntimeException
+
+1. `ArrayIndexOutOfBondsException`
+2. `NullPointerException`
+3. `ClassCastException`
+4. `NumberFormatException`
+5. `InputMismatchException`
+6. `ArithmeticException`
+
+##### 4. 常见的编译时异常
+
+1. `ClassNotFoundException`
+2. `FileNotFoundException`
+3. `IOException`
+
+### 9.3 Java异常处理
+
+##### 1. 处理方式：将异常处理的程序代码集中在一起
+
+##### 1. `try-catch-finally`：抓抛模型
+
+- `try`：程序在执行过程中，一旦出现异常，就会在出现异常的代码出，生成对应异常类的对象，并将此对象抛出。一旦抛出，此程序就不执行后面的代码了
+- `catch`：针对于`try`过程中抛出的异常对象，进行捕获处理。这个捕获处理的过程就是`catch`。一旦将异常处理了之后，代码就可以最后执行
+
+- 基本结构：
+
+  - ```java
+    try{
+       ..... // 可能产生异常的代码
+    } catch(异常类型1 e){
+       ..... // 出现异常类型1的时候的处置措施
+    } catch(异常类型2 e){
+       ..... // 出现异常类型2的时候的处置措施
+    } finally {
+       ..... // 无论是否发生异常，都无条件执行的语句
+    }
+    ..... // 异常处理之后继续执行的代码
+    ```
+
+- 使用细节
+
+  - 将可能出现异常的代码声明在`try`语句中。一旦代码出现异常，就会自动生成一个对应异常类的对象，并将此对象抛出
+
+  - 针对于`try`中抛出的异常类的对象，使用之后的`catch`语句进行匹配。一旦匹配上，就就进入`catch`语句块儿进行处理
+
+  - 一旦处理结束，代码就可以继续向下运行
+
+  - 如果多个异常类型满足子父类的关系，则需要将子类声明在父类上面，不然会报错
+
+    - ```java
+      		try {
+                  Scanner scanner = new Scanner(System.in);
+                  int num = scanner.nextInt();
+                  System.out.println(num);
+              } catch (InputMismatchException e){
+                  System.out.println("出现了InputMismatchException的异常");
+              } catch(RuntimeException e){ // 这个是上面的父类，需要放到最后
+                  System.out.println("出现了RuntimeException的异常");
+              }
+      ```
+
+  - `catch`中异常处理的方式
+
+    - 自己编写输出异常的语句
+    - **`public void printStackTrace()`：打印异常的详细信息**(主要使用)
+    - `public String getMessage()`：获取发生异常的原因
+
+  - `try`中声明的变量在`try`的大括号以外无效
+
+- 对于编译时异常，一定要进行处理，否则编译不通过。[本质上是将编译时异常转换到运行时处理]
+
+
+
+##### 2. `throws `异常类型：
 
 # 12. 集合框架
 
