@@ -1935,6 +1935,28 @@ synchronized(同步监视器,一般使用this){
 
 如果操作共享数据的代码被完成的证明在了一个方法中，那么就可以将此方法声明为同步方法
 
+```java
+// 这里是implement Runnable
+public synchronized void method1(){ // 此时的同步监视器是this，是唯一的
+	// 方法体
+}
+// 这里是extends Thread
+public synchronized void method1(){ // 此时的同步监视器是this，但是不是是唯一的，所以仍然线程不安全
+  // 修改方法：（如果可以）：使用static 或者使用同步代码块
+	// 方法体
+}
+```
+
+- 对于非静态的同步方法，默认同步监视器是`this`
+- 对于静态的同步方法，默认同步监视器是这个类本身
+
+
+
+##### 3. 使用synchronized关键字的好处和弊端
+
+- 好处：解决了线程问题
+- 弊端：在操作共享数据时，多线程其实是串行执行的，意味着性能低。
+
 
 
 
@@ -2244,6 +2266,53 @@ JDK5.0的时候Java引入了”参数化类型(Parameterized Type)“的概念�
 - 例子：`List<String>`表示该List只能保存字符串类型的对象
 
 泛型的定义：允许在定义类、接口的时候通过一个‘标识’来表示类中的某个属性的类型或者是某个方法的返回值或参数的类型
+
+
+
+### 13.2 自定义泛型
+
+##### 1. 自定义反省类\接口
+
+- 格式：`class A<参数>{   }` 参数可以是E,T等
+- 接口：`interface B<参数>{   }`
+
+```java
+public class Order<T>{ }
+// SubOrder1不是泛型类，t当前为Object类型
+public class SubOrder1 extends Order{ } 
+// SubOrder2不是泛型类，t已经被替换为Integer类型
+public class SubOrder2 extends Order<Integer>{ } 
+// SubOrder3是泛型类，t的类型需要在实例化时被替换
+public class SubOrder3<T> extends Order<T>{ }
+// SubOrder4是泛型类，t被替换到Integer类型，E为SubOrder4里面自己的类型
+public class SubOrder4<E> extends Order<Integer>{ } 
+// SubOrder5是泛型类，t的类型需要在实例化时被替换，E为SubOrder4里面自己的类型,需要在实例化时被替换
+public class SubOrder4<T,E> extends Order<T>{ } 
+```
+
+
+
+
+
+##### 2. 自定义泛型方法
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
