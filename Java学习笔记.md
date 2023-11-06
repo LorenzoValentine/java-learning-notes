@@ -1818,6 +1818,15 @@ public enum Status {
 
 # 10. 多线程
 
+### 10.1 相关概念
+
+- 程序(Program)：为了完成特定任务，用某种语言编写的一组指令集合。即指一段静态的代码和静态对象
+- 进程(Process)：程序的一次执行过程，或者是内存中运行的程序
+  - 每个进程都有独立内存空间，系统运行一个程序的过程：创建->运行->消亡
+  - 程序是静态的、进程是动态的
+- 线程(Thread)：程序内部的**一条执行路径**。一个进程中至少有一个线程
+  - 一个进程同一时间若并行执行多个线程，就是支持多线程的
+
 
 
 11.5 日 《红楼梦》+ 多线程 + Treeset + 泛型 + p195 Lambda
@@ -1828,7 +1837,99 @@ public enum Status {
 
 
 
+### 10.2 创建和启动线程：`java.lang.Thread`
 
+##### 1. 线程的创建方式1：继承Thread类，本质上Thread类是`public class Thread implements Runnable`
+
+- 创建继承与Thread类的子类
+- 重写Thread类的`run()`方法，将此线程要执行的操作声明在此方法体重
+- 创建当前Thread的子类的对象
+- 通过对象调用`start()`: 1> 启动线程 2> 调用run()
+  - 不能用已经start()的线程再次执行start()，否则报错`IllegalThreadStateException`
+
+```java
+public class EvenNumberTest {
+    public static void main(String[] args) {
+        PrintNumber p1 = new PrintNumber();
+        p1.start();
+    }
+}
+
+class PrintNumber extends Thread{
+    @Override
+    public void run() {
+        for (int i = 1; i <= 100; i++){
+            if (i % 2 == 0){
+                System.out.println(i);
+            }
+        }
+    }
+}
+```
+
+
+
+##### 2. 线程的创建方式1：实现Runnable接口，此方法避免了单继承的局限性
+
+- 创建实现Runnable接口的类
+- 重写接口中的run()方法
+- 创建当前实现类的对象
+- **将此对象作为参数传递到Thread类的构造器中，创建Thread类的实例**
+- Thread类的实例调用start()
+
+```java
+public class EvenNumberTest {
+    public static void main(String[] args) {
+        
+        EvenNumberPrint p = new EvenNumberPrint();
+        // 创建Thread类型的实例对象
+        Thread ts = new Thread(p);
+        ts.start();
+        
+    }
+}
+
+class EvenNumberPrint implements Runnable{
+    @Override
+    public void run() {
+        for (int i = 1; i <= 100; i++){
+            if (i % 2 == 0){
+                System.out.println(i);
+            }
+        }
+    }
+}
+```
+
+
+
+### 10.2 线程的安全问题及解决方法
+
+- 当多个线程对同一个资源进行读和写的操作，就容易出现线程的安全问题
+- 线程1在操作程序的情况下，尚未结束，其他线程参与进来，故导致线程阻塞
+  - 必须保证线程1操作结束之后，其他线程才能继续操作
+- java使用线程的同步机制来解决线程安全问题
+
+##### 1. 方式1：同步代码块儿：
+
+关键字：`synchronized`
+
+```java
+synchronized(同步监视器){
+  // 需要被同步的代码
+}
+```
+
+使用说明：
+
+- 需要被同步的代码，
+  - 即为操作共享数据的代码（共享数据，即多个线程都需要操作的数据，比如卖票中的总票数）
+  - 在被`synchronized`包裹以后，就使得一个线程在操作这些代码的过程中，其他线程必须等待。
+- 同步监视器，
+  - 俗称锁，哪个线程获取了锁，哪个线程就能执行需要被同步的代码
+  - 可以使用任何一个类的对象充当，但是多个线程必须共同使用同一个同步监视器
+
+##### 2. 方式2：同步方法
 
 # 12. 集合框架
 
@@ -2057,6 +2158,20 @@ public enum Status {
 - 添加到`HashSet/LinkedHashSet`中元素的要求
   - 要求元素所在的类要重写两个方法：`equals()`和`hashCode()`
   - 同时，为了保证一致性，需要在intellij自动生成重写两个方法
+
+
+
+### 12.4.5 TreeSet实现类
+
+底层使用红黑树存储。可以按照添加的元素的指定的属性的大小顺序进行遍历
+
+- 向TreeSet中添加元素的要求：要求添加到TreeSet中的元素必须是同一类型的元素。
+- 判断是否相等
+  - 判断TreeSet内元素是否相同的标准不再是考虑`.equals()`和`.hashCode()`了，也就意味着添加到TreeSet中的元素不必要也不需要重写
+  - 比较元素大小或比较元素是否相等的标准就是考虑自然排序或者定制排序中，`compareTo()`或者`compare()`的返回值。
+    - 如果两个返回值是0，则认为两个对象时相等的。由于TreeSet中不能存放相同的元素，则后面添加的和前面重复的元素将不再能添加进TreeSet
+
+
 
 
 
