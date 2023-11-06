@@ -2345,7 +2345,78 @@ java中，对于数据的输入输出操作时以流stream的方式存在
 
 ##### 1. FileReader 和 FileWriter的使用
 
+执行步骤：
 
+- 创建读取或者写出的File类的对象
+- 创建输入流或者输出流
+- 具体的读入或者写出的过程
+  - 读入：`read(char[] cbuffer)`
+  - 写出：`write(String str) / write(char[] cbuffer, 0, len)`
+- 关闭流资源
+
+注意点：
+
+- 需要使用`try-catch-finally`处理异常(`IOException`)
+
+- 对于输入流来讲，File类的对象的文件必须在磁盘上存在
+
+- 对于输出流来讲
+
+  - 如果文件不存在会自动创建此文件，并写出数据到这个文件中
+
+  - 如果此文件存在：
+
+    - ```java
+      fw = new FileWriter(file); // 替换文件里全部内容
+      fw = new FileWriter(file, false); // 替换文件里全部内容
+      fw = new FileWriter(file, true); // 在现有的文件的末尾追加内容
+      ```
+
+例子：从第一个文件读取里面的内容完全拷贝到第二个文件里
+
+```java
+ 		@Test
+    public void testCopy(){
+        FileReader fr = null;
+        FileWriter fw = null;
+        try {
+            // 创建文件类
+            File srcFile = new File("hello.txt");
+            File destFile = new File("hello_copy.txt");
+
+            // 输入输出流
+            fr = new FileReader(srcFile);
+            fw = new FileWriter(destFile);
+
+            // 输入
+            char[] cbuff = new char[5];
+            int len; // 记录每次读入到cbuffer中字符的个数
+
+            while ((len = fr.read(cbuff)) != -1) {
+                // 输出
+                fw.write(cbuff, 0, len);
+            }
+        } catch (IOException e){
+            e.printStackTrace();
+        } finally {
+          	//流关闭
+            try {
+                if (fw != null){
+                    fw.close();
+                }
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+            try {
+                if (fr != null){
+                    fr.close();
+                }
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+    }
+```
 
 
 

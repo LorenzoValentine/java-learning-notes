@@ -133,23 +133,43 @@ public class FileReaderWriterTest {
     }
 
     @Test
-    public void test5() throws IOException{
-        File srcFile = new File("/Users/doujingqi/Documents/Macbook Document/Notes/java-learning-notes/JavaLearning/src/io/file/hello.txt");
-        File destFile = new File("/Users/doujingqi/Documents/Macbook Document/Notes/java-learning-notes/JavaLearning/src/io/file/hello_copy.txt");
+    public void test5(){
+        FileReader fr = null;
+        FileWriter fw = null;
+        try {
+            // 创建文件类
+            File srcFile = new File("/Users/doujingqi/Documents/Macbook Document/Notes/java-learning-notes/JavaLearning/src/io/file/hello.txt");
+            File destFile = new File("/Users/doujingqi/Documents/Macbook Document/Notes/java-learning-notes/JavaLearning/src/io/file/hello_copy.txt");
 
-        FileReader fr = new FileReader(srcFile);
-        FileWriter fw = new FileWriter(destFile);
+            // 输入输出流
+            fr = new FileReader(srcFile);
+            fw = new FileWriter(destFile);
 
-        char[] cbuff = new char[5];
-        int len; // 记录每次读入到cbuffer中字符的个数
+            // 输入
+            char[] cbuff = new char[5];
+            int len; // 记录每次读入到cbuffer中字符的个数
 
-        while ((len = fr.read(cbuff)) != -1){
-            //
-            fw.write(cbuff, 0, len);
+            while ((len = fr.read(cbuff)) != -1) {
+                // 输出
+                fw.write(cbuff, 0, len);
+            }
+        } catch (IOException e){
+            e.printStackTrace();
+        } finally {
+            try {
+                if (fw != null){
+                    fw.close();
+                }
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+            try {
+                if (fr != null){
+                    fr.close();
+                }
+            } catch (IOException e){
+                e.printStackTrace();
+            }
         }
-
-        fw.close();
-        fr.close();
-
     }
 }
