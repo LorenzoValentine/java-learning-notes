@@ -2343,7 +2343,7 @@ java中，对于数据的输入输出操作时以流stream的方式存在
 |    Reader    |    FileReader    |
 |    Writer    |    FileWriter    |
 
-##### 1. FileReader 和 FileWriter的使用
+##### 1. FileReader 和 FileWriter的使用：主要用来处理字符
 
 执行步骤：
 
@@ -2420,9 +2420,16 @@ java中，对于数据的输入输出操作时以流stream的方式存在
 
 
 
-##### 2. FileInputStream 和 FileOutputStream的使用
+##### 2. FileInputStream 和 FileOutputStream的使用：可以处理例如图片等字节文件
 
+执行步骤：
 
+- 创建读取或者写出的File类的对象
+- 创建输入流或者输出流
+- 具体的读入或者写出的过程
+  - 读入：`read(byte[] buffer)`
+  - 写出：`write(byte[] buffer, 0, len)`
+- 关闭流资源
 
 
 
