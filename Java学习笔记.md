@@ -2299,9 +2299,57 @@ public class SubOrder4<T,E> extends Order<T>{ }
 
 
 
+# 14 File类与IO流
+
+### 14.1 java.io.File
+
+##### 1. 文件的路径表示方式
+
+- 绝对路径：包括盘符在内的文件或者文件目录的完整路径
+- 相对路径：相对于某一个文件目录来讲的相对路径
+
+##### 2. File类的构造器
+
+- `public File(String pathname)`：以pathname为路径创建File对象
+- `public File(String parent, String child)`：以parent为父路径(一定是文件目录)，child为子路径创建File对象(可以是文件也可以是目录)
+- `public File(File parent, String child)`：根据一个父File对象和子文件路径创建File对象
+
+##### 3. File类的常用方法
+
+获取文件和目录的基本信息
+
+- `public String getName()`：获取文件名称
+- `public String getPath()`：获取文件路径
+- `public String getAbsolutePath()`：获取文件绝对路径
+- `public File getAbsoluteFile()`：获取绝对路径表示的文件
+- `public String getParent()`：获取上层文件目录路径，如果没有的话返回null
+- `public long length()`：获取文件长度（字节数）。不能获取目录的长度
+- `public long lastModified()`：获取最后一次修改的时间，毫秒值
+
+列出目录的下一级
 
 
 
+### 14.2 IO流的原理及流的分类
+
+java中，对于数据的输入输出操作时以流stream的方式存在
+
+基础IO流的框架：
+
+|   抽象基类   |  节点流/文件流   |
+| :----------: | :--------------: |
+| InputStream  | FileInputStream  |
+| OutputStream | FileOutputStream |
+|    Reader    |    FileReader    |
+|    Writer    |    FileWriter    |
+
+##### 1. FileReader 和 FileWriter的使用
+
+
+
+
+
+##### 2. FileInputStream 和 FileOutputStream的使用
 
 
 
