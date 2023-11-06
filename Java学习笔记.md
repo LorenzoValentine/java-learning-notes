@@ -1959,6 +1959,53 @@ public synchronized void method1(){ // 此时的同步监视器是this，但是�
 
 
 
+# 11. 常用类及基础api
+
+### 11.5 Java比较器：使用Comparable接口实现自然排序
+
+- 对于引用数据类型是无法直接进行大小比较的
+
+##### 1. 排序：Comparable `class A implement Comparable<T>`
+
+- 实现步骤
+  - 具体的类A实现Comparable接口
+  - 重写Comparable接口中的`compareTo(Object o)`方法，需要在此方法中指明比较类A的对象大小的标准
+  - 创建类A的多个实例，进行大小比较的排序
+
+##### 2. 定制排序：Comparator
+
+当使用的是三方的接口或者类，无法对源代码更改或者对于预定义的类(比如String已经重写过了)重新定义新排序
+
+- 实现步骤
+  - 创建一个实现Comparator的实现类A
+  - 实现类A要求重写的Comparator接口中的抽象方法compare(Object o1, Object o2)，在此方法体中要指明比较大小对象的大小关系
+  - 创建此实现类A的对象，并将此对象传入到相关方法的参数位置（）`Arrays.sort(要比较的)`
+
+```java
+				Comparator<Product> comparator = new Comparator() {
+            // 如何判断两个对象的大小：其标准就是此方法的方法体要写的
+            @Override
+            public int compare(Object o1, Object o2) {
+                if (o1 instanceof Product && o2 instanceof Product){
+                    Product p1 = (Product) o1;
+                    Product p2 = (Product) o2;
+
+                    int value = Integer.compare(p1.getPrice(), p2.getPrice());
+                    if (value != 0){
+                        return -value;
+                    }
+                    return -p1.getName().compareTo(p2.getName());
+                }
+                throw new RuntimeException("参数不匹配");
+            }
+        };
+        Arrays.sort(要比较的数组, comparator);
+```
+
+
+
+
+
 
 
 # 12. 集合框架
