@@ -2278,19 +2278,20 @@ JDK5.0的时候Java引入了”参数化类型(Parameterized Type)“的概念�
 
 ```java
 public class Order<T>{ }
-// SubOrder1不是泛型类，t当前为Object类型
+// SubOrder1不是泛型类，t可以当成Object类型进行处理，需要在实例化时被替换
 public class SubOrder1 extends Order{ } 
 // SubOrder2不是泛型类，t已经被替换为Integer类型
 public class SubOrder2 extends Order<Integer>{ } 
-// SubOrder3是泛型类，t的类型需要在实例化时被替换
+// SubOrder3是泛型类，t可以当成Object类型进行处理，需要在实例化时被替换
 public class SubOrder3<T> extends Order<T>{ }
 // SubOrder4是泛型类，t被替换到Integer类型，E为SubOrder4里面自己的类型
 public class SubOrder4<E> extends Order<Integer>{ } 
-// SubOrder5是泛型类，t的类型需要在实例化时被替换，E为SubOrder4里面自己的类型,需要在实例化时被替换
+// 在现有的泛型类上新增参数
+// SubOrder5是泛型类，t可以当成Object类型进行处理，需要在实例化时被替换，E为SubOrder4里面自己的类型，需要在实例化时被替换
 public class SubOrder4<T,E> extends Order<T>{ } 
 ```
 
-
+使用说明
 
 
 
