@@ -2210,8 +2210,32 @@ public synchronized void method1(){ // 此时的同步监视器是this，但是�
 - Arraylist：List的主要的实现类(from JDK1.2)，线程不安全的实现类，效率高；底层使用`Object[]`数组存储==大部分情况都用==
   - 在添加和查找时效率高，但是在插入和删除时效率低
 - Vector：List的古老的实现类(from JDK1.0)，线程安全的实现类，效率低；底层使用`Object[]`数组存储
-- LinkedList：底层使用双向链表的方式进行数组存储；在对集合中的数据进行频繁的插入和删除操作时建议使用
-  - 在插入和删除时效率高，但是在添加和查找时效率低
+- LinkedList：底层使用==双向链表==的方式进行数组存储；在对集合中的数据进行频繁的插入和删除操作时建议使用
+
+### 12.3.5 LinkedList 双向链表
+
+- 在插入和删除时效率高，但是在添加和查找时效率低
+- 元素有序，可重复，有索引（可以有操作索引的方法）
+- 线程不安全
+
+#### 方法
+
+- 插入元素
+    - `void addFirst(E e)` 将指定元素插入到链表开头
+    - `void addLast(E e) `将指定元素插入到链表末尾
+- 返回元素
+    - `E getFirst() `返回链表的第一个元素
+    - `E getLast()` 返回链表的最后一个元素
+- 移除并返回元素
+    - `E removeFirst()` 移除并返回链表的第一个元素，**返回的是被移除的元素**
+    - `E removeLast()` 移除并返回链表的最后一个元素，返回的是被移除的元素
+- 堆栈操作
+    - `E pop()` 从链表所表示的堆栈处弹出一个元素，按照从前到后的顺序，每pop一次
+    - <img src="./JavaMDImage/linkedlist.pop.png" alt="Screenshot 2024-05-07 at 20.54.46" style="zoom:50%;" />
+    - `void push(E e)` 将元素推入到此链表所表示的堆栈，插入到第一个为止
+    - <img src="./JavaMDImage/Screenshot 2024-05-07 at 20.56.54.png" alt="Screenshot 2024-05-07 at 20.56.54" style="zoom:50%;" />
+- 判断
+    - `boolean isEmpty()` 判断链表是否为空
 
 
 
@@ -2477,12 +2501,6 @@ java中，对于数据的输入输出操作时以流stream的方式存在
   - 读入：`read(byte[] buffer)`
   - 写出：`write(byte[] buffer, 0, len)`
 - 关闭流资源
-
-
-
-
-
-
 
 
 
