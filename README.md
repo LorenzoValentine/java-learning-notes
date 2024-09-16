@@ -9,3 +9,5 @@
 2. [Java 设计模式 design pattern](./Java Design Pattern设计模式笔记.md)
 <br>
 3. [Leetcode 刷题笔记 in Java](./Leetcode 刷题笔记.md)
+
+文档均使用markdown，并使用typora的高级markdown语法
